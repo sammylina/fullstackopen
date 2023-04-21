@@ -15,16 +15,26 @@ const App = () => {
   const initalVotes = Array(anecdotes.length).fill(0)
 
   const [selected, setSelected] = useState(0)
-  const [votes, setVotes] = useState(initalVotes)
+  const [votes, setVotes] = useState(initalVotes);
+  const [topIdx, setTopIdx] = useState(0)
 
   const handleAnecdoteChange = () => {
     const rand = Math.floor(Math.random() * anecdotes.length);
     setSelected(rand)
   }
   const handleVote = () => {
-    const votesCpy = [...votes]
-    votesCpy[selected] += 1;
+    const votesCpy = votes.map((vote, i) => {
+      
+      return i == selected ? ++vote : vote
+    })
+    let top = topIdx;
+    votesCpy.forEach((v, i) => {
+      if (v > votes[topIdx]) {
+        top = i;
+      }
+    })
     setVotes(votesCpy)
+    setTopIdx(top)
   }
   return (
     <div>
@@ -32,6 +42,9 @@ const App = () => {
       <p>has {votes[selected]} votes.</p> 
       <button onClick={handleVote}>vote</button>
       <button onClick={handleAnecdoteChange}>next anecdote</button>
+
+      <p>{anecdotes[topIdx]}</p>
+      <p>has {votes[topIdx]} votes.</p> 
     </div>
   )
 
