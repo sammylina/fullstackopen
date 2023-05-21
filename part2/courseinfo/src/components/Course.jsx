@@ -1,6 +1,6 @@
 import Header from './Header';
 import Content from './Content';
-//import Total from './Total';
+import Total from './Total';
 
 
 export default function Course({course}) {
@@ -8,7 +8,7 @@ export default function Course({course}) {
     <div>
       <Header course={course.name}/>
       <Content parts={course.parts}/>
-      {/* <Total parts={course.parts}/> */}
+      <Total parts={course.parts}/> 
     </div>
   );    
 }

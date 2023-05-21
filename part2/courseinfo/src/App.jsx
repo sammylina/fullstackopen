@@ -18,7 +18,13 @@ const App = () => {
     name: 'State of a component',
     exercises : 14,
     id: 3
-  }]
+  },
+   {
+    name: 'Redux',
+    exercises : 11,
+    id: 4
+  },
+  ]
 }
 
 
@@ -29,8 +35,4 @@ const App = () => {
   )
 }
 
-const Total = ({parts: [part1, part2, part3]}) => {
-      const sum = part1.exercises + part2.exercises + part3.exercises;
-      return <p>Number of exercises {sum}</p>
-}
 export default App
