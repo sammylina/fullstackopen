@@ -12,9 +12,15 @@ const App = () => {
 
   const addPerson = (e) => { 
     e.preventDefault(); 
-    const newPerson = {name: newName};
-    setPersons([...persons, newPerson])
-    setNewName('');
+    const newNameIdx = persons.findIndex((person) => person.name === newName)
+    if (newNameIdx < 0) {
+      const newPerson = {name: newName};
+      setPersons([...persons, newPerson])
+      setNewName('');
+    }
+    else {
+      alert(`${newName} is already added to phonebook`) 
+    }
   }
 
   return (
