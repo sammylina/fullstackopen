@@ -33,9 +33,12 @@ const App = () => {
     const newNameIdx = persons.findIndex((person) => person.name === newName)
     if (newNameIdx < 0) {
       const newPerson = {name: newName, number: phoneNumber};
-      setPersons([...persons, newPerson])
-      setNewName('');
-      setPhoneNumber('');
+      axios.post('http://localhost:3000/persons', newPerson)
+        .then(res => {
+          setPersons([...persons, res.data])
+          setNewName('');
+          setPhoneNumber('');
+        });
     }
     else {
       alert(`${newName} is already added to phonebook`) 
