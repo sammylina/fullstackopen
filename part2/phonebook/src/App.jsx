@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios';
+import PersonService from './services/persons';
 
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
@@ -13,9 +13,11 @@ const App = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [searchName, setSearchName] = useState('');
 
+  const {getAllPerson, createPerson} = PersonService;
+
   useEffect(() => {
-    axios.get('http://localhost:3000/persons')
-      .then(res => setPersons(res.data))
+    getAllPerson()
+      .then(persons => setPersons(persons))
       .catch(err => console.log('fetch eror: ', err))
   
   }, []);
@@ -33,9 +35,9 @@ const App = () => {
     const newNameIdx = persons.findIndex((person) => person.name === newName)
     if (newNameIdx < 0) {
       const newPerson = {name: newName, number: phoneNumber};
-      axios.post('http://localhost:3000/persons', newPerson)
-        .then(res => {
-          setPersons([...persons, res.data])
+      createPerson(newPerson)
+        .then(person => {
+          setPersons([...persons, person])
           setNewName('');
           setPhoneNumber('');
         });
