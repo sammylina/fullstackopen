@@ -13,7 +13,7 @@ const App = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [searchName, setSearchName] = useState('');
 
-  const {getAllPerson, createPerson} = PersonService;
+  const {getAllPerson, createPerson, removePerson} = PersonService;
 
   useEffect(() => {
     getAllPerson()
@@ -47,6 +47,16 @@ const App = () => {
     }
   }
 
+  const handleDeletePerson = (person) => {
+    const confirm_msg = `Delete ${person.name} ?` 
+    if (window.confirm(confirm_msg)) {
+      removePerson(person.id)
+        .then((res) => {
+          setPersons(persons.filter(p => person.id !== p.id))
+        })
+    }
+  }
+
   const searchPersonByName = (e) => {
     const fPersonIdx = []
     persons.forEach((p, i) => {
@@ -74,7 +84,7 @@ const App = () => {
                   phoneNumber={phoneNumber}
       />
       <h2>Numbers</h2>
-      <Persons personsToShow={personsToShow} />
+      <Persons personsToShow={personsToShow} deletePerson={handleDeletePerson}/>
   
     </div>
   )
