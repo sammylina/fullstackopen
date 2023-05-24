@@ -13,7 +13,11 @@ const App = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [searchName, setSearchName] = useState('');
 
-  const {getAllPerson, createPerson, removePerson} = PersonService;
+  const { getAllPerson,
+          createPerson, 
+          removePerson, 
+          updatePerson,
+          } = PersonService;
 
   useEffect(() => {
     getAllPerson()
@@ -43,7 +47,16 @@ const App = () => {
         });
     }
     else {
-      alert(`${newName} is already added to phonebook`) 
+      const confirm_msg = (`${newName} is already added to phonebook, replace the old number with a new one?`) 
+      if (window.confirm(confirm_msg)) {
+        const newPerson =  {...persons[newNameIdx], number: phoneNumber}
+        updatePerson(newPerson)
+          .then(person => {
+            setPersons(persons.map(p => p.id !== person.id ? p : person))
+            setNewName('');
+            setPhoneNumber('');
+          })
+      }
     }
   }
 
