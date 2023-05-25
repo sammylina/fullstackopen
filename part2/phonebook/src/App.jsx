@@ -13,7 +13,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('');
   const [searchName, setSearchName] = useState('');
-  const [notification_msg, setNotificationMsg] = useState(null)
+  const [notification, setNotification] = useState({msg: null, color: 'red'})
 
   const { getAllPerson,
           createPerson, 
@@ -46,9 +46,9 @@ const App = () => {
           setPersons([...persons, person])
           setNewName('');
           setPhoneNumber('');
-          setNotificationMsg(`Added ${person.name}`)
+          setNotification({msg: `Added ${person.name}`, color: 'green'})
 
-          setTimeout(() => setNotificationMsg(null), 3000);
+          setTimeout(() => setNotification({...notification, msg: null}), 3000);
         });
     }
     else {
@@ -60,8 +60,12 @@ const App = () => {
             setPersons(persons.map(p => p.id !== person.id ? p : person))
             setNewName('');
             setPhoneNumber('');
-            setNotificationMsg(`Added ${person.name}`)
-            setTimeout(() => setNotificationMsg(null), 3000);
+            setNotification({msg: `Added ${person.name}`, color: 'green'})
+            setTimeout(() => setNotification({...notification, msg: null}), 3000);
+          })
+          .catch(err => {
+            setNotification({msg:`Information of ${newPerson.name} has already been removed from server`, color: 'red'})
+            setTimeout(() => setNotification({...notification, msg: null}), 3000);
           })
       }
     }
@@ -94,7 +98,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notification_msg}/>
+      <Notification notification={notification}/>
       <Filter searchName={searchName} onSearchPersonByName={searchPersonByName}/>
 
       <h3>Add a new</h3>

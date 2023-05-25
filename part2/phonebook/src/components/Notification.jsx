@@ -1,6 +1,6 @@
-export default function Notification({message}) {
+export default function Notification({notification: {msg, color}}) {
     const success = {
-        color: 'green',
+        color,
         border: 'solid',
         background: 'lightgrey',
         borderRadius: 5,
@@ -9,12 +9,12 @@ export default function Notification({message}) {
         fontSize: 22,
         marginBottom: 5,
     }
-    if (message === null) {
+    if (msg === null) {
         return null;
     }
     return (
         <div style={success}>
-            {message}
+            {msg}
         </div>
     )
 }
