@@ -4,6 +4,7 @@ import PersonService from './services/persons';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
+import Notification from './components/Notification';
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -12,6 +13,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('');
   const [searchName, setSearchName] = useState('');
+  const [notification_msg, setNotificationMsg] = useState(null)
 
   const { getAllPerson,
           createPerson, 
@@ -44,6 +46,9 @@ const App = () => {
           setPersons([...persons, person])
           setNewName('');
           setPhoneNumber('');
+          setNotificationMsg(`Added ${person.name}`)
+
+          setTimeout(() => setNotificationMsg(null), 3000);
         });
     }
     else {
@@ -55,6 +60,8 @@ const App = () => {
             setPersons(persons.map(p => p.id !== person.id ? p : person))
             setNewName('');
             setPhoneNumber('');
+            setNotificationMsg(`Added ${person.name}`)
+            setTimeout(() => setNotificationMsg(null), 3000);
           })
       }
     }
@@ -87,6 +94,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notification_msg}/>
       <Filter searchName={searchName} onSearchPersonByName={searchPersonByName}/>
 
       <h3>Add a new</h3>
